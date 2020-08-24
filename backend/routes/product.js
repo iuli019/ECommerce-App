@@ -1,6 +1,6 @@
 const router = require("express").Router();
 let Product = require("../models/product");
-// const admin = require("../middleware/admin");
+
 
 router.route("/").get((req, res) => {
   Product.find()
@@ -14,7 +14,8 @@ router.route("/add").post((req, res) => {
   const description = req.body.description;
   const price = req.body.price;
   const numberInStock = req.body.numberInStock;
-  const newProduct = new Product({ name, description, price, numberInStock });
+  const imageUrl = req.body.imageUrl;
+  const newProduct = new Product({ name, description, price, numberInStock, imageUrl });
 
   newProduct
     .save()
@@ -43,6 +44,7 @@ router.route("/update/:id").post((req, res) => {
       product.description = req.body.description;
       product.price = req.body.price;
       product.numberInStock = req.body.numberInStock;
+      product.imageUrl = req.body.imageUrl;
 
       product
         .save()

@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.PASS;
 
 router.route("/").post((req, res) => {
-  const { name, email, address, password } = req.body;
+  const { name, email, address, password, isAdmin } = req.body;
 
   //validation
   if (!name || !email || !password) {
@@ -24,6 +24,7 @@ router.route("/").post((req, res) => {
       email,
       address,
       password,
+      isAdmin
     });
 
     // create salt & hash

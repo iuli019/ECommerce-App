@@ -88,11 +88,12 @@ export const updateProduct = (product) =>
   apiCallBegan({
     url: url + "/update/" + product.id,
     method: "post",
+    data: product,
     onSuccess: productUpdated.type,
   });
 
 //selector
 export const getProductsOnStock = createSelector(
-  (state) => state.entities.products,
-  (products) => products.filter((product) => product.numberInStock != 0)
+  (state) => state.entities.products.list,
+  (list) => list.filter((product) => product.numberInStock !== 0)
 );
