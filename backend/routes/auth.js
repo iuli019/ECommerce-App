@@ -25,18 +25,20 @@ router.route("/").post((req, res) => {
       if (!isMatch) return res.status(400).json("Invalid password");
 
       jwt.sign(
-        { id: user.id, name: user.name, email: user.email },
+        { id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin },
         jwtSecret,
         (err, token) => {
           if (err) throw err;
           res.json({
             token,
-            user: { name: user.name, id: user.id, email: user.email },
+            user: { name: user.name, id: user.id, email: user.email, isAdmin: user.isAdmin },
           });
         }
       );
     });
   });
+
+
 });
 
 router.route("/user").get(auth, (req, res) => {

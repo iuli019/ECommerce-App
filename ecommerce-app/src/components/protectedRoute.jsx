@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
+import JwtDecode from "jwt-decode";
 
 function ProtectedRoute({ path, component: Component, render, ...rest }) {
   return (
@@ -8,10 +9,14 @@ function ProtectedRoute({ path, component: Component, render, ...rest }) {
       path={path}
       {...rest}
       render={(props) => {
-        if (!localStorage.getItem("token")) {
+
+        const user = JwtDecode(localStorage.getItem("token"));
+
+        if (user.isAdmin === false) {
           toast("No token!");
-          return <Redirect to="/login" />;
+          return <Redirect to="/products" />;
         }
+
         return Component ? <Component {...rest} /> : render(rest);
       }}
     />

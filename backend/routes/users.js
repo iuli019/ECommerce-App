@@ -22,7 +22,6 @@ router.route("/").post((req, res) => {
     const newUser = new User({
       name,
       email,
-      address,
       password,
       isAdmin
     });
@@ -34,14 +33,14 @@ router.route("/").post((req, res) => {
         newUser.password = hash;
         newUser.save().then((user) => {
           jwt.sign(
-            { id: user.id, name: user.name, email: user.email },
+            { id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin },
             jwtSecret,
             { expiresIn: 3600 },
             (err, token) => {
               if (err) throw err;
               res.json({
                 token,
-                user: { name: user.name, id: user.id, email: user.email },
+                user: { name: user.name, id: user.id, email: user.email, isAdmin: user.isAdmin },
               });
             }
           );
@@ -54,6 +53,12 @@ router.route("/").post((req, res) => {
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => res.json(users))
+    .catch((err) => res.status(400).json("Error:" + err));
+});
+
+router.route("/:id").delete((req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then(() => res.json("User deleted."))
     .catch((err) => res.status(400).json("Error:" + err));
 });
 module.exports = router;

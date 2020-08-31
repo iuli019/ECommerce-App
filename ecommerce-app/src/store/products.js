@@ -1,6 +1,8 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
+
 import { apiCallBegan } from "./api";
-import moment from "moment";
+
+
 
 const slice = createSlice({
   name: "products",
@@ -54,10 +56,10 @@ export default slice.reducer;
 const url = "/products";
 
 export const loadProducts = () => (dispatch, getState) => {
-  const { lastFetch } = getState().entities.products;
+  // const { lastFetch } = getState().entities.products;
 
-  const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
-  if (diffInMinutes < 10) return;
+  // const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
+  // if (diffInMinutes < 10) return;
   dispatch(
     apiCallBegan({
       url,
@@ -86,7 +88,7 @@ export const deleteProduct = (id) =>
 
 export const updateProduct = (product) =>
   apiCallBegan({
-    url: url + "/update/" + product.id,
+    url: url + "/update/" + product._id,
     method: "post",
     data: product,
     onSuccess: productUpdated.type,
@@ -97,3 +99,8 @@ export const getProductsOnStock = createSelector(
   (state) => state.entities.products.list,
   (list) => list.filter((product) => product.numberInStock !== 0)
 );
+export const getProducts = createSelector((state => state.entities.products.list), (list) => list);
+
+export const getProductFromCart = createSelector((state) => state.entities.products.list, (list) => list.filter((product) => product.inCart === true));
+
+

@@ -15,7 +15,9 @@ router.route("/add").post((req, res) => {
   const price = req.body.price;
   const numberInStock = req.body.numberInStock;
   const imageUrl = req.body.imageUrl;
-  const newProduct = new Product({ name, description, price, numberInStock, imageUrl });
+  const inCart = req.body.inCart;
+  const numberForCart = req.body.numberForCart;
+  const newProduct = new Product({ name, description, price, numberInStock, imageUrl, inCart });
 
   newProduct
     .save()
@@ -45,6 +47,8 @@ router.route("/update/:id").post((req, res) => {
       product.price = req.body.price;
       product.numberInStock = req.body.numberInStock;
       product.imageUrl = req.body.imageUrl;
+      product.inCart = req.body.inCart;
+      product.numberForCart = req.body.numberForCart;
 
       product
         .save()

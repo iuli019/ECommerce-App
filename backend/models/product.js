@@ -8,6 +8,8 @@ const productSchema = new Schema({
   price: { type: Number },
   numberInStock: { type: Number },
   imageUrl: { type: String },
+  inCart: { type: Boolean, default: false },
+  numberForCart: { type: Number },
 });
 
 const Product = mongoose.model("Product", productSchema);
